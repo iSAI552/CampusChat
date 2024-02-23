@@ -1,1 +1,1 @@
-# Bakend for the Campus Connect App
+# Bakend for the Campus Chat App
