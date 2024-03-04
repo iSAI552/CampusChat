@@ -20,7 +20,7 @@ const userSchema = new Schema({
     },
     college: {
         type: String,
-        lowercase: true,
+        uppercase: true,
         required: true,
         trim: true,
         index: true,
@@ -28,7 +28,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: [true, "Password is required"],
-    },x
+    },
     logo: {
         type: String,
         default: "https://www.gravatar.com/avatar",
