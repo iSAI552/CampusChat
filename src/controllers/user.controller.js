@@ -3,7 +3,24 @@ import {asyncHandler} from "../utils/AsyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { zodSchema } from "../utils/ZodSchema.js";
-import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js"
+import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
+
+const generateaccessandRefreshToken = async (userId) => {
+    try {
+        const user = await User.findById(userId)
+        const accessToken = await user.generateAccessToken()
+        const refreshToken = await user.generateRefreshToken()
+    
+        user.refreshToken = refreshToken
+        await user.save({validateBeforeSave: false})
+    
+        return (accessToken, refreshToken)
+    } catch (error) {
+        throw new ApiError(500, "Something went wrong while genrating the access and refresh tokens")
+    }
+
+}
+
 
 const registerUser = asyncHandler( async (req, res) => {
     // *** handel the the rsakeys - to send the public key and using private key decrypt the user info 
