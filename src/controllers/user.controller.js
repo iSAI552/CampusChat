@@ -2,7 +2,7 @@ import { User } from "../models/user.model.js";
 import {asyncHandler} from "../utils/AsyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
-import { zodSchema } from "../utils/ZodSchema.js";
+import { userLoginZodSchema, userSignUpZodSchema } from "../utils/ZodSchema.js";
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
 
 const generateaccessandRefreshToken = async (userId) => {
@@ -37,7 +37,7 @@ const registerUser = asyncHandler( async (req, res) => {
     if(userExisted) throw new ApiError(409, "Username already taken please use a different one")
 
     try {
-        zodSchema.parse({username, email, password})
+        userSignUpZodSchema.parse({username, email, password})
     } catch (error) {
         return res.status(400)
         .json({
@@ -76,4 +76,42 @@ const registerUser = asyncHandler( async (req, res) => {
 
 })
 
-export { registerUser }
+const loginUser = asyncHandler( async (req, res) => {
+    // accessToken and RefreshToken
+    // send cookie
+
+    const {username, password} = req.body
+    try {
+        userLoginZodSchema.parse({username, password})
+    } catch (error) {
+        throw new ApiError(400, "Incorrect format of username or password", error.errors)
+    }
+
+    const user = await User.findOne({username})
+    if(!user){
+        throw new ApiError(401, "User does not exist")
+    }
+
+    const isPasswordCorrect = await user.isPasswordCorrect(password)
+    if(!isPasswordCorrect){
+        throw new ApiError(400, "Invalid credentials")
+    }
+
+    const {accessToken, refreshToken} = await generateaccessandRefreshToken(user?._id)
+
+    const loggedInUser = await User.findById(user?._id)
+    .select("-password -email -refreshToken")
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            {loggedInUser, accessToken, refreshToken},
+            "User loggedIn successfully"
+        )
+    )
+
+
+
+})
+
+export { registerUser, loginUser }
