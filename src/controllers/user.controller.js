@@ -4,6 +4,12 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { userLoginZodSchema, userSignUpZodSchema } from "../utils/ZodSchema.js";
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
+import { remvoeTempFilesSync } from "../utils/removeTemp.js";
+
+const options = {
+    httpOnly: true,
+    secure: true
+}
 
 const generateaccessandRefreshToken = async (userId) => {
     try {
@@ -14,7 +20,7 @@ const generateaccessandRefreshToken = async (userId) => {
         user.refreshToken = refreshToken
         await user.save({validateBeforeSave: false})
     
-        return (accessToken, refreshToken)
+        return {accessToken, refreshToken}
     } catch (error) {
         throw new ApiError(500, "Something went wrong while genrating the access and refresh tokens")
     }
@@ -34,19 +40,22 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     const userExisted = await User.findOne({ username })
-    if(userExisted) throw new ApiError(409, "Username already taken please use a different one")
+    if(userExisted){
+        remvoeTempFilesSync()
+        throw new ApiError(409, "Username already taken please use a different one")
+    }
 
     try {
         userSignUpZodSchema.parse({username, email, password})
     } catch (error) {
+        removeTempFilesSync()
         return res.status(400)
         .json({
             error: "Validation failed", details: error.errors
         });
     }
 
-    const logoLocalPath = req.files?.logo?.[0].path
-
+    const logoLocalPath = req.file?.path
     
     const logo = await uploadOnCloudinary(logoLocalPath) ?? "https://www.gravatar.com/avatar"
 
@@ -55,7 +64,7 @@ const registerUser = asyncHandler( async (req, res) => {
         email,
         password,
         college: "IITH",
-        logo: logo
+        logo: logo.url
     })
 
     const createdUser = await User.findById(user._id).select(
@@ -77,7 +86,6 @@ const registerUser = asyncHandler( async (req, res) => {
 })
 
 const loginUser = asyncHandler( async (req, res) => {
-    // accessToken and RefreshToken
     // send cookie
 
     const {username, password} = req.body
@@ -102,7 +110,10 @@ const loginUser = asyncHandler( async (req, res) => {
     const loggedInUser = await User.findById(user?._id)
     .select("-password -email -refreshToken")
 
-    return res.status(200).json(
+    return res.status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
         new ApiResponse(
             200,
             {loggedInUser, accessToken, refreshToken},
@@ -114,4 +125,31 @@ const loginUser = asyncHandler( async (req, res) => {
 
 })
 
-export { registerUser, loginUser }
+const logoutUser = asyncHandler( async (req, res) => {
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $unset: {
+                refreshToken: 1
+            }
+        },
+        {
+            new: true
+        }
+    )
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(
+        new ApiResponse(
+            200,
+            {},
+            "User Logged Out Successfully"
+        )
+    )
+
+})
+
+export { registerUser, loginUser, logoutUser }
