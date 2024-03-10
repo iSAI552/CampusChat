@@ -1,4 +1,4 @@
-import { User } from "../models/user.model.js";
+import { User } from "../models/user.models.js";
 import {asyncHandler} from "../utils/AsyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
@@ -6,6 +6,7 @@ import { userLoginZodSchema, userSignUpZodSchema } from "../utils/ZodSchema.js";
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
 import { remvoeTempFilesSync } from "../utils/removeTemp.js";
 import jwt from "jsonwebtoken";
+import { application } from "express";
 
 const options = {
     httpOnly: true,
@@ -196,4 +197,37 @@ const refreshAccessToken = asyncHandler (async (req, res) => {
 
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken }
+const updateUserLogo = asyncHandler( async (req, res) => {
+    const logoLocalPath = req.file?.path
+    if(!logoLocalPath) throw new ApiError(400, "New logo file needed")
+
+    const logo = await uploadOnCloudinary(logoLocalPath);
+
+    if(!logo) throw new ApiError(400, "Error while uploading the logo file to cloudinary")
+
+    await deleteFromCloudinary([req.user?.logo])
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                logo: logo.url
+            }
+        },
+        {
+            new: true
+        }
+    ).select("-password -email -refreshToken")
+    
+
+    return res
+    .status(200)
+    .json(new ApiResponse(
+        200,
+        user.logo,
+        "The logo is updated successfully"
+    ))
+
+})
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, updateUserLogo }
