@@ -1,6 +1,6 @@
 
 import { isValidObjectId } from 'mongoose';
-import { Comment } from '../models/comment.model.js';
+import { Comment } from '../models/comment.models.js';
 import { asyncHandler } from '../utils/AsyncHandler.js';
 import { ApiError } from '../utils/ApiError.js';
 import { Post } from '../models/post.models.js'
