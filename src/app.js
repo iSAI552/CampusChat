@@ -18,12 +18,16 @@ app.use(cookieParser())
 import userRouter from './routes/user.routes.js'
 import commentRouter from './routes/comment.routes.js'
 import voteRouter from './routes/vote.routes.js'
+import postRouter from './routes/post.routes.js'
+import groupRouter from './routes/group.routes.js'
 
 
 
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/comment", commentRouter)
 app.use("/api/v1/vote", voteRouter)
+app.use("/api/v1/post", postRouter)
+app.use("/api/v1/group", groupRouter)
 
 // http://localhost:8000/api/v1/
 

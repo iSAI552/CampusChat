@@ -1,12 +1,12 @@
-
 import { isValidObjectId } from 'mongoose';
 import { Comment } from '../models/comment.models.js';
 import { asyncHandler } from '../utils/AsyncHandler.js';
 import { ApiError } from '../utils/ApiError.js';
 import { Post } from '../models/post.models.js'
+import { ApiResponse } from '../utils/ApiResponse.js';
 
 const getPostComments = asyncHandler( async (req, res) => {
-    const postId = req?.params
+    const {postId} = req.params;
     const {page = 1, limit = 10} = req.query
 
     if(!isValidObjectId(postId)){
@@ -103,19 +103,16 @@ const updatePostComment = asyncHandler( async (req, res) => {
         throw new ApiError(404, "Invalid CommentId")
     }
 
-    const comment = await Comment.findByIdAndUpdate(
-        commentId,
-        {
-            content
-        },
-        {
-            new: true
-        }
-    )
-
+    const comment = await Comment.findById(commentId);
     if(!comment){
         throw new ApiError(404, "Comment Not Found")
     }
+    if(comment.userId.toString() !== req.user._id.toString()){
+        throw new ApiError(403, "You are not authorized to update this comment")
+    }
+
+    comment.content = content || comment.content;
+    await comment.save();
 
     return res
     .status(200)
@@ -136,11 +133,17 @@ const deletePostComment = asyncHandler( async (req, res) => {
         throw new ApiError(404, "Invalid CommentId")
     }
 
-    const comment = await Comment.findByIdAndDelete(commentId)
-
+    const comment = await Comment.findById(commentId);
     if(!comment){
         throw new ApiError(404, "Comment Not Found")
     }
+    if(comment.userId.toString() !== req.user._id.toString()){
+        throw new ApiError(403, "You are not authorized to delete this comment")
+    }
+
+    await Comment.deleteOne({_id: commentId}).catch((err) => {
+        throw new ApiError(500, "Comment could not be deleted")
+    })
 
     return res
     .status(200)

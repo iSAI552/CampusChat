@@ -6,8 +6,8 @@ const router = Router()
 
 router.use(verifyJWT)
 
-router.route("/vote/post/:postId/:voteType").post(votePost)
-router.route("/vote/comment/:commentId/:voteType").post(voteComment)
+router.route("/post/:postId/:voteType").post(votePost)
+router.route("/comment/:commentId/:voteType").post(voteComment)
 router.route("/upvoted-posts").get(getUpvotedPosts)
 
 export default router
