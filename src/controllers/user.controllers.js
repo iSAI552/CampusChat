@@ -4,9 +4,9 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { userLoginZodSchema, userSignUpZodSchema } from "../utils/ZodSchema.js";
 import { uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
-import { remvoeTempFilesSync } from "../utils/removeTemp.js";
+import { removeTempFilesSync } from "../utils/removeTemp.js";
 import jwt from "jsonwebtoken";
-import { application } from "express";
+import { Otp } from "../models/otp.models.js";
 
 const options = {
     httpOnly: true,
@@ -34,17 +34,11 @@ const registerUser = asyncHandler( async (req, res) => {
     // *** handel the the rsakeys - to send the public key and using private key decrypt the user info 
    // handel the email otp
 
-    const { email, password} = req.body
+    const { email, password, otp} = req.body
     let {username} = req.body
 
     if(!username){
         username = Math.random().toString(36).substring(2, 6) + Math.random().toString(36).substring(9, 15);
-    }
-
-    const userExisted = await User.findOne({ username })
-    if(userExisted){
-        remvoeTempFilesSync()
-        throw new ApiError(409, "Username already taken please use a different one")
     }
 
     try {
@@ -56,11 +50,22 @@ const registerUser = asyncHandler( async (req, res) => {
             error: "Validation failed", details: error.errors
         });
     }
+    const userExisted = await User.findOne({ username })
+    if(userExisted){
+        removeTempFilesSync()
+        throw new ApiError(409, "Username already taken please use a different one")
+    }
 
+    const otpResponse = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1)
+    if(otpResponse.length === 0 || otp !== otpResponse[0].otp){
+        removeTempFilesSync()
+        throw new ApiError(400, "Invalid OTP")
+    }
+    
     const logoLocalPath = req.file?.path
     
     const logo = await uploadOnCloudinary(logoLocalPath) ?? "https://www.gravatar.com/avatar"
-
+    
     const user = await User.create({
         username,
         email,
@@ -80,10 +85,6 @@ const registerUser = asyncHandler( async (req, res) => {
     return res.status(201).json(
         new ApiResponse(201, createdUser, "User created successfully")
     )
-
-
-
-
 
 })
 

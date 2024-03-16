@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-export function remvoeTempFilesSync() {
+export function removeTempFilesSync() {
     const tempFolderPath = "./public/temp";
 
     try {

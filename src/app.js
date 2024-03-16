@@ -20,6 +20,7 @@ import commentRouter from './routes/comment.routes.js'
 import voteRouter from './routes/vote.routes.js'
 import postRouter from './routes/post.routes.js'
 import groupRouter from './routes/group.routes.js'
+import otpRouter from './routes/otp.routes.js'
 
 
 
@@ -28,6 +29,7 @@ app.use("/api/v1/comment", commentRouter)
 app.use("/api/v1/vote", voteRouter)
 app.use("/api/v1/post", postRouter)
 app.use("/api/v1/group", groupRouter)
+app.use("/api/v1/otp", otpRouter)
 
 // http://localhost:8000/api/v1/
 
