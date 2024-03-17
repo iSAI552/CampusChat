@@ -57,7 +57,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     const otpResponse = await Otp.find({ email }).sort({ createdAt: -1 }).limit(1)
-    if(otpResponse.length === 0 || otp !== otpResponse[0].otp){
+    if(otpResponse.length === 0 || !await otpResponse[0].compareOtp(otp)){
         removeTempFilesSync()
         throw new ApiError(400, "Invalid OTP")
     }

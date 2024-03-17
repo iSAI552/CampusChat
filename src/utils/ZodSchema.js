@@ -7,8 +7,12 @@ const userSignUpZodSchema = zod.object({
 });
 
 const userLoginZodSchema = zod.object({
-    username: zod.string().length(8),
+    username: zod.string().min(6).max(15),
     password: zod.string().min(8).max(30),
 })
 
-export { userSignUpZodSchema, userLoginZodSchema};
+const emailZodSchema = zod.object({
+    email: zod.string().email(),
+});
+
+export { userSignUpZodSchema, userLoginZodSchema, emailZodSchema};
