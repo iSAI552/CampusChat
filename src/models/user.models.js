@@ -45,16 +45,6 @@ const userSchema = new Schema({
     refreshToken: {
         type: String,
     },
-    otp: {
-        type: String,
-    },
-    isVerified: {
-        type: Boolean,
-        default: false,
-    },
-    otpExpires: {
-        type: Date,
-    },
 
 }, { timestamps: true })
 
