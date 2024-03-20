@@ -1,14 +1,13 @@
-// import { useState } from 'react'
-import './App.css'
+import "./App.css";
+import OtpPage from "./pages/Otp";
 
 function App() {
-  // const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <h1 className='text-3xl font-bold underline'>Hello world</h1>
-    </>
-  )
+    
+    return (
+        <>
+            <OtpPage />
+        </>
+    );
 }
 
-export default App
+export default App;
