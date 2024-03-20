@@ -1,1 +1,2 @@
-# Bakend for the Campus Chat App
+# A fullstack Campus Chat App
+It is made using the MERN stack
