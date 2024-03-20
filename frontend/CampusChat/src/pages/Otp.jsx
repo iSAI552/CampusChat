@@ -27,7 +27,8 @@ function OtpPage() {
 
     return (
         <>
-            <Container><h1>Enter your email id</h1></Container>
+            <Container>
+              <h1>Enter your email id</h1>
             <form onSubmit={handelSubmit}>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter you email" required />
               <button type="submit" disabled={loading}>Send OTP</button>
@@ -40,6 +41,7 @@ function OtpPage() {
                 <p>{JSON.stringify(data["data"])}</p>
               </div>
             )}
+            </Container>
         </>
     );
 }
