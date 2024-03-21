@@ -28,8 +28,11 @@ async function sendVerificationEMail(email, otp) {
             `<h1>Please confirm your OTP</h1>
             <p>Here is your OTP code: ${otp}</p>`
         );
+        if (!mailResponse) {
+            throw new Error(mailResponse.error);
+        }
 
-        console.log("Email sent successfully" ,mailResponse);
+        console.log("Email sent successfully");
 
     } catch (error) {
         console.error("Error sending email", error);
