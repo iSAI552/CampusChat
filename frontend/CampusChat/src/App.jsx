@@ -3,6 +3,7 @@ import OtpPage from "./pages/Otp";
 import SignUpPage from "./pages/SignUp";
 import LogInPage from "./pages/Login";
 import LogOutPage from "./pages/Logout";
+import CreatePostPage from "./pages/createPost";
 function App() {
     // here pass myEmail as props to signup page
 
@@ -15,6 +16,8 @@ function App() {
             <LogInPage />
             <h1>----------------------------------------------------------------------------------------------</h1>
             <LogOutPage />
+            <h1>----------------------------------------------------------------------------------------------</h1>
+            <CreatePostPage />
         </>
     );
 }
