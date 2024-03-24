@@ -1,10 +1,10 @@
 // import React from "react";
-import OtpPage from "./pages/Otp";
-import SignUpPage from "./pages/SignUp";
-import LogInPage from "./pages/Login";
-import LogOutPage from "./pages/Logout";
-import CreatePostPage from "./pages/createPost";
-import GetPostPage from "./pages/getUserPost";
+import OtpPage from "./pages/user/Otp";
+import SignUpPage from "./pages/user/SignUp";
+import LogInPage from "./pages/user/Login";
+import LogOutPage from "./pages/user/Logout";
+import CreatePostPage from "./pages/posts/CreatePost";
+import GetPostPage from "./pages/posts/GetUserPost";
 function App() {
     // here pass myEmail as props to signup page
 

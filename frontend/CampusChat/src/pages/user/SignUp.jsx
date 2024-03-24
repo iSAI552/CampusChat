@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 // eslint-disable-next-line react/prop-types
 function SignUpPage({myEmail}) {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 function OtpPage() {
     const [email, setEmail] = useState("");

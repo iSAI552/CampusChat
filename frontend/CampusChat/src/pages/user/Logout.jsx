@@ -1,11 +1,12 @@
+//28oxmslo
+
+
 import { useState } from "react";
 import axios from "axios";
-import Container from "../components/Container";
+import Container from "../../components/Container";
 
 // eslint-disable-next-line react/prop-types
-function LogInPage() {
-    const [password, setPassword] = useState("");
-    const [username, setUsername] = useState(null);
+function LogOutPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -17,8 +18,7 @@ function LogInPage() {
 
         try {
             const response = await axios.post(
-                "/api/v1/users/login",
-                { username, password }
+                "/api/v1/users/logout"
             );
             setData(response.data);
         } catch (error) {
@@ -30,11 +30,9 @@ function LogInPage() {
     return (
         <>
             <Container>
-                <h1>Log In</h1>
+                <h1>Log Out</h1>
                 <form onSubmit={handelSubmit}>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter your username" required />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" required />
-                    <button type="submit" disabled={loading}>Log In</button>
+                    <button type="submit" disabled={loading}>Log Out</button>
                 </form>
                 {loading && <p>Loading...</p>}
                 {error && <p>{error}</p>}
@@ -44,10 +42,9 @@ function LogInPage() {
                         <p>{JSON.stringify(data)}</p>
                     </div>
                 )}
-
             </Container>
         </>
     );
 }
 
-export default LogInPage;
+export default LogOutPage;
