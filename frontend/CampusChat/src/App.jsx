@@ -6,6 +6,7 @@ import LogOutPage from "./pages/user/Logout";
 import CreatePostPage from "./pages/posts/CreatePost";
 import GetPostPage from "./pages/posts/GetUserPost";
 import UpdatePostPage from "./pages/posts/UpdatePost";
+import DeletePostPage from "./pages/posts/DeletePost";
 function App() {
     // here pass myEmail as props to signup page
 
@@ -24,6 +25,8 @@ function App() {
             <GetPostPage />
             <h1>----------------------------------------------------------------------------------------------</h1>
             <UpdatePostPage />
+            <h1>----------------------------------------------------------------------------------------------</h1>
+            <DeletePostPage />
         </>
     );
 }
