@@ -10,6 +10,7 @@ import DeletePostPage from "./pages/posts/DeletePost";
 import VotePostPage from "./pages/vote/VotePost";
 import VoteCommentPage from "./pages/vote/VoteComment";
 import UpvotedPostsPage from "./pages/vote/UpvotedPosts";
+import AddPostCommentPage from "./pages/comment/AddPostComment";
 function App() {
     // here pass myEmail as props to signup page
 
@@ -36,6 +37,8 @@ function App() {
             <VoteCommentPage />
             <h1>----------------------------------------------------------------------------------------------</h1>
             <UpvotedPostsPage />
+            <h1>----------------------------------------------------------------------------------------------</h1>
+            <AddPostCommentPage />
         </>
     );
 }
