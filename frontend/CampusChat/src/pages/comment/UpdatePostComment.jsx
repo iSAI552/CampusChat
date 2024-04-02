@@ -16,7 +16,7 @@ function UpdatePostCommentPage() {
         setError(null);
 
         try {
-            const response = await axios.post(
+            const response = await axios.patch(
                 `/api/v1/comment/${commentId}`,
                 { content }
             );
@@ -30,7 +30,7 @@ function UpdatePostCommentPage() {
     return (
         <>
             <Container>
-                <h1>Add comment on post</h1>
+                <h1>Update comment on post</h1>
                 <form onSubmit={handelSubmit}>
                     <input type="text" value={commentId} onChange={(e) => setCommentId(e.target.value)} placeholder="Id of the comment" required />
                     <input type="text" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Updated Comment" />

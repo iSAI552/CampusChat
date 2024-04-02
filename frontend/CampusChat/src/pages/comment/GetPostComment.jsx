@@ -28,7 +28,7 @@ function GetPostCommentPage() {
     return (
         <>
             <Container>
-                <h1>Add comment on post</h1>
+                <h1>Get comment of a post</h1>
                 <form onSubmit={handelSubmit}>
                     <input type="text" value={postId} onChange={(e) => setPostId(e.target.value)} placeholder="Id of the post" required />
                     <br></br>

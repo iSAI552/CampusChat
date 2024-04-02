@@ -30,7 +30,7 @@ function VoteCommentPage() {
     return (
         <>
             <Container>
-                <h1>Vote the Post of ID: </h1>
+                <h1>Vote the comment of ID: </h1>
                 <form onSubmit={handelSubmit}>
                     <input type="text" value={commentId} onChange={(e) => setCommentId(e.target.value)} placeholder="ID of the comment" />
                     <button type="submit" onClick={() => setVoteType("upvote")}>Upvote</button>
