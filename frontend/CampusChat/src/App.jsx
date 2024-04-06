@@ -15,6 +15,7 @@ import AddPostCommentPage from "./pages/comment/AddPostComment";
 import GetPostCommentPage from "./pages/comment/GetPostComment";
 import UpdatePostCommentPage from "./pages/comment/UpdatePostComment";
 import DeletePostCommentPage from "./pages/comment/DeletePostComment";
+import PrivateRoutes from './components/PrivateRoutes';
 function App() {
     // here pass myEmail as props to signup page
 
@@ -53,27 +54,29 @@ function App() {
         <>
             <BrowserRouter>
                 <Routes>
+                    <Route element={<PrivateRoutes />}>
+                        <Route path="/logout" element={<LogOutPage />} />
+                        {/*-------------------Posts-------------------*/}
+                        <Route path="/createpost" element={<CreatePostPage />} />
+                        <Route path="/getpost" element={<GetPostPage />} />
+                        <Route path="/updatepost" element={<UpdatePostPage />} />
+                        <Route path="/deletepost" element={<DeletePostPage />} />
+                        {/*-------------------Vote-------------------*/}
+                        <Route path="/votepost" element={<VotePostPage />} />
+                        <Route path="/votecomment" element={<VoteCommentPage />} />
+                        <Route path="/upvotedposts" element={<UpvotedPostsPage />} />
+                        {/*-------------------Post_Comments-------------------*/}
+                        <Route path="/addpostcomment" element={<AddPostCommentPage />} />
+                        <Route path="/getpostcomment" element={<GetPostCommentPage />} />
+                        <Route path="/updatepostcomment" element={<UpdatePostCommentPage />} />
+                        <Route path="/deletepostcomment" element={<DeletePostCommentPage />} />
+                    </Route>
                     {/*-------------------User-------------------*/}
                     <Route path="/" element={<OtpPage />} />
                     <Route index element={<OtpPage />} />
                     <Route path="/otp" element={<OtpPage />} />
                     <Route path="/signup" element={<SignUpPage />} />
                     <Route path="/login" element={<LogInPage />} />
-                    <Route path="/logout" element={<LogOutPage />} />
-                    {/*-------------------Posts-------------------*/}
-                    <Route path="/createpost" element={<CreatePostPage />} />
-                    <Route path="/getpost" element={<GetPostPage />} />
-                    <Route path="/updatepost" element={<UpdatePostPage />} />
-                    <Route path="/deletepost" element={<DeletePostPage />} />
-                    {/*-------------------Vote-------------------*/}
-                    <Route path="/votepost" element={<VotePostPage />} />
-                    <Route path="/votecomment" element={<VoteCommentPage />} />
-                    <Route path="/upvotedposts" element={<UpvotedPostsPage />} />
-                    {/*-------------------Post_Comments-------------------*/}
-                    <Route path="/addpostcomment" element={<AddPostCommentPage />} />
-                    <Route path="/getpostcomment" element={<GetPostCommentPage />} />
-                    <Route path="/updatepostcomment" element={<UpdatePostCommentPage />} />
-                    <Route path="/deletepostcomment" element={<DeletePostCommentPage />} />
                     <Route path="*" element={<h1>Page not found</h1>} />
                 </Routes>
             </BrowserRouter>

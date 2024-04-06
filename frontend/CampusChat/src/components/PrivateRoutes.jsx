@@ -1,21 +1,11 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+// import React from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-    const isAuthenticated = // Add your authentication logic here
-
+const PrivateRoutes = () => {
+    let auth = JSON.parse(localStorage.getItem('auth'));
     return (
-        <Route
-            {...rest}
-            render={(props) =>
-                isAuthenticated ? (
-                    <Component {...props} />
-                ) : (
-                    <Redirect to="/login" />
-                )
-            }
-        />
-    );
+        auth.token ? <Outlet /> : <Navigate to="/login" />
+    )
 };
 
-export default PrivateRoute;
+export default PrivateRoutes;
