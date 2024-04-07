@@ -230,4 +230,21 @@ const updateUserLogo = asyncHandler( async (req, res) => {
 
 })
 
-export { registerUser, loginUser, logoutUser, refreshAccessToken, updateUserLogo }
+const checkAuth = asyncHandler( async (req, res) => {
+   try {
+     const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+     if(!token) throw new ApiError(401, "Unauthorized Request")
+
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const user = await User.findById(decodedToken?._id).select("-password -email -refreshToken")
+
+    if(!user) throw new ApiError(401, "Invalid Access Token")
+
+    res.status(200).json({isAutehnticated: true})
+   } catch (error) {
+        res.status(401).json({isAutehnticated: false});
+   }
+})
+
+export { registerUser, loginUser, logoutUser, refreshAccessToken, updateUserLogo, checkAuth }
