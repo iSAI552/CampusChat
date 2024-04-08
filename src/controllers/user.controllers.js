@@ -240,10 +240,9 @@ const checkAuth = asyncHandler( async (req, res) => {
     const user = await User.findById(decodedToken?._id).select("-password -email -refreshToken")
 
     if(!user) throw new ApiError(401, "Invalid Access Token")
-
-    res.status(200).json({isAutehnticated: true})
+    res.status(200).json({isAuthenticated: true})
    } catch (error) {
-        res.status(401).json({isAutehnticated: false});
+        res.status(200).json({isAuthenticated: false});
    }
 })
 
