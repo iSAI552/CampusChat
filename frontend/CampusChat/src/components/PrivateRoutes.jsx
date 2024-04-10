@@ -3,22 +3,6 @@ import { Outlet, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-// const PrivateRoutes = async () => {
-//     const authUrl = "/api/v1/users/check-auth";
-//     // const auth = await axios.get(authUrl);
-//     // console.log(auth.data.isAuthenticated)
-//     const a = {'token': false};
-//     return (
-//         a.token ? <Outlet /> : <Navigate to="/login" />
-//     )
-// };
-
-// const checkAuthtication = async () => {
-//     const authUrl = "/api/v1/users/check-auth";
-//     const auth = await axios.get(authUrl);
-//     return auth.data.isAuthenticated;
-// }
-
 const PrivateRoutes =  () => {
     const [Authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -41,6 +25,5 @@ const PrivateRoutes =  () => {
     Authenticated ? <Outlet/> : <Navigate to='/login'/>
     )
   }
-
 
 export default PrivateRoutes;
