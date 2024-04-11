@@ -23,7 +23,7 @@ function OtpPage() {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-500 to-blue-700">
+        <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-400 to-blue-700">
             <Container>
                 <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-xl">
                     <h1 className="text-3xl font-bold mb-6">Welcome to Campus Chat</h1>
