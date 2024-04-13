@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useLocation } from "react-router-dom";
 
-function SignUpPage({ myEmail }) {
-    const [email, setEmail] = useState(myEmail);
+function SignUpPage() {
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [otp, setOtp] = useState("");
     const [username, setUsername] = useState("");
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    const location = useLocation();
+
+    // Now Extracting the email from the search params
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const emailFromURL = searchParams.get("email");
+        if (emailFromURL) {
+            setEmail(emailFromURL);
+        }
+    }, [location.search]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

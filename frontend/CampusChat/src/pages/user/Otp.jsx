@@ -1,12 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useNavigate } from "react-router-dom";
 
 function OtpPage() {
     const [email, setEmail] = useState("");
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -16,6 +18,7 @@ function OtpPage() {
         try {
             const response = await axios.post("/api/v1/otp", { email });
             setData(response.data);
+            navigate(`/signup?email=${email}`);
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
         }
