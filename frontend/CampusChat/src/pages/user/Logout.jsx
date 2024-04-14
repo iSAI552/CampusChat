@@ -1,11 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useNavigate } from "react-router-dom";
 
 function LogOutPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,6 +17,13 @@ function LogOutPage() {
         try {
             const response = await axios.post("/api/v1/users/logout");
             setData(response.data);
+            console.log(response.data)
+            if(response.data.success) {
+                setTimeout(() => {
+                    navigate("/login")
+                }, 3000);
+                
+            }
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
         }
@@ -45,8 +54,10 @@ function LogOutPage() {
                                 Data fetched
                             </h2>
                             <p>{JSON.stringify(data)}</p>
+
                         </div>
                     )}
+                    
                 </div>
             </Container>
         </div>
