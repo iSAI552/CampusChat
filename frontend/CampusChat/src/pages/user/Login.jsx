@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useNavigate } from "react-router-dom";
 
 function LogInPage() {
     const [password, setPassword] = useState("");
@@ -8,6 +9,7 @@ function LogInPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,6 +19,7 @@ function LogInPage() {
         try {
             const response = await axios.post("/api/v1/users/login", { username, password });
             setData(response.data);
+            navigate(`/getpost?userId=${response.data.data.loggedInUser._id}`);
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
         }

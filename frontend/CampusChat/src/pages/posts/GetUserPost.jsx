@@ -1,13 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useLocation } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 function GetPostPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const userId = "6617e9f3cfa4332ed2355dc1"
+    const [userId, setUserId] = useState("");
+
+    const location = useLocation();
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const userIdFromURL = searchParams.get("userId");
+        if (userIdFromURL) {
+            setUserId(userIdFromURL);
+        }
+    }, [location.search]);
 
     const handelSubmit = async (e) => {
         e.preventDefault();
