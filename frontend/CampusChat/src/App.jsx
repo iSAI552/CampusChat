@@ -16,6 +16,7 @@ import GetPostCommentPage from "./pages/comment/GetPostComment";
 import UpdatePostCommentPage from "./pages/comment/UpdatePostComment";
 import DeletePostCommentPage from "./pages/comment/DeletePostComment";
 import PrivateRoutes from './components/PrivateRoutes';
+import LoggedInRedirect from './components/LoggedInRedirect';
 function App() {
     // here pass myEmail as props to signup page
 
@@ -72,11 +73,13 @@ function App() {
                         <Route path="/deletepostcomment" element={<DeletePostCommentPage />} />
                     </Route>
                     {/*-------------------User-------------------*/}
-                    <Route path="/" element={<OtpPage />} />
-                    <Route index element={<OtpPage />} />
-                    <Route path="/otp" element={<OtpPage />} />
-                    <Route path="/signup" element={<SignUpPage />} />
-                    <Route path="/login" element={<LogInPage />} />
+                    <Route element={<LoggedInRedirect />}>
+                        <Route path="/" element={<OtpPage />} />
+                        <Route index element={<OtpPage />} />
+                        <Route path="/otp" element={<OtpPage />} />
+                        <Route path="/signup" element={<SignUpPage />} />
+                        <Route path="/login" element={<LogInPage />} />
+                    </Route>
                     <Route path="*" element={<h1>Page not found</h1>} />
                 </Routes>
             </BrowserRouter>
