@@ -8,6 +8,7 @@ function GetPostPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState("");
+    const [formatedData, setFormatedData] = useState([]); 
     const location = useLocation();
 
     useEffect(() => {
@@ -25,6 +26,23 @@ function GetPostPage() {
         try {
             const response = await axios.get(`/api/v1/post/user/${userId}`);
             setData(response.data);
+            if(response.data.success){
+                const temp = response.data.data.map((post) => {
+                    return {
+                        id: post._id,
+                        title: post.title,
+                        content: post.content,
+                        user: post.user,
+                        createdAt: post.createdAt,
+                        updatedAt: post.updatedAt,
+                        upvotes: post.upvotes,
+                        downvotes: post.downvotes,
+                        groupId: post.groupId,
+                        tags: post.tags,
+                    };
+                })
+                setFormatedData(temp);
+            }
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
         }
@@ -33,26 +51,34 @@ function GetPostPage() {
 
     return (
         <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-400 to-blue-700">
-        <Container>
-            <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-                <h1 className="text-3xl font-bold mb-6">User Posts</h1>
-                <button
-                    onClick={handleSubmit}
-                    className="w-full bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
-                >
-                    {loading ? "Loading..." : "Get User Posts"}
-                </button>
-                {loading && <p className="mt-2 text-gray-600">Loading...</p>}
-                {error && <p className="mt-2 text-red-500">{error}</p>}
-                {data && (
-                    <div className="mt-6">
-                        <h2 className="text-xl font-bold mb-2">Data fetched</h2>
-                        <p>{JSON.stringify(data)}</p>
-                    </div>
-                )}
-            </div>
-        </Container>
-    </div>
+            <Container>
+                <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+                    <h1 className="text-3xl font-bold mb-6">User Posts</h1>
+                    <button
+                        onClick={handleSubmit}
+                        className="w-full bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
+                    >
+                        {loading ? "Loading..." : "Get User Posts"}
+                    </button>
+                    {loading && <p className="mt-2 text-gray-600">Loading...</p>}
+                    {error && <p className="mt-2 text-red-500">{error}</p>}
+                    {formatedData.length > 0 && (
+                        <div className="mt-6 grid grid-cols-1 gap-6">
+                            {formatedData.map(post => (
+                                <div key={post.id} className="bg-gray-100 p-6 rounded-lg shadow-md">
+                                    <h2 className="text-xl font-bold mb-2">{post.title}</h2>
+                                    <p className="text-gray-700">{post.content}</p>
+                                    <div className="mt-4 text-xs text-gray-400 flex justify-between">
+                                        <p>Created At: {post.createdAt}</p>
+                                        <p>Updated At: {post.updatedAt}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </Container>
+        </div>
     );
 }
 
