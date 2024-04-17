@@ -4,7 +4,6 @@ import Container from "../../components/Container";
 import { useLocation } from "react-router-dom";
 
 function GetPostPage() {
-    const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState("");
@@ -25,7 +24,6 @@ function GetPostPage() {
 
         try {
             const response = await axios.get(`/api/v1/post/user/${userId}`);
-            setData(response.data);
             if(response.data.success){
                 const temp = response.data.data.map((post) => {
                     return {
@@ -52,7 +50,7 @@ function GetPostPage() {
     return (
         <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-400 to-blue-700">
             <Container>
-                <div className="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+                <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
                     <h1 className="text-3xl font-bold mb-6">User Posts</h1>
                     <button
                         onClick={handleSubmit}
