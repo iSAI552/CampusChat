@@ -7,7 +7,7 @@ function GetPostPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [userId, setUserId] = useState("");
-    const [formatedData, setFormatedData] = useState([]); 
+    const [formatedData, setFormatedData] = useState([]);
     const location = useLocation();
 
     useEffect(() => {
@@ -24,21 +24,19 @@ function GetPostPage() {
 
         try {
             const response = await axios.get(`/api/v1/post/user/${userId}`);
-            if(response.data.success){
-                const temp = response.data.data.map((post) => {
-                    return {
-                        id: post._id,
-                        title: post.title,
-                        content: post.content,
-                        user: post.user,
-                        createdAt: post.createdAt,
-                        updatedAt: post.updatedAt,
-                        upvotes: post.upvotes,
-                        downvotes: post.downvotes,
-                        groupId: post.groupId,
-                        tags: post.tags,
-                    };
-                })
+            if (response.data.success) {
+                const temp = response.data.data.map((post) => ({
+                    id: post._id,
+                    title: post.title,
+                    content: post.content,
+                    user: post.user,
+                    createdAt: post.createdAt,
+                    updatedAt: post.updatedAt,
+                    upvotes: post.upvotes,
+                    downvotes: post.downvotes,
+                    groupId: post.groupId,
+                    tags: post.tags,
+                }));
                 setFormatedData(temp);
             }
         } catch (error) {
@@ -48,7 +46,7 @@ function GetPostPage() {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-400 to-blue-700">
+        <div className="h-screen bg-gradient-to-br from-blue-400 to-blue-700 overflow-y-auto">
             <Container>
                 <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
                     <h1 className="text-3xl font-bold mb-6">User Posts</h1>
@@ -61,14 +59,14 @@ function GetPostPage() {
                     {loading && <p className="mt-2 text-gray-600">Loading...</p>}
                     {error && <p className="mt-2 text-red-500">{error}</p>}
                     {formatedData.length > 0 && (
-                        <div className="mt-6 grid grid-cols-1 gap-6">
-                            {formatedData.map(post => (
-                                <div key={post.id} className="bg-gray-100 p-6 rounded-lg shadow-md">
+                        <div className="mt-6">
+                            {formatedData.map((post) => (
+                                <div key={post.id} className="bg-gray-100 p-6 rounded-lg shadow-md mb-4">
                                     <h2 className="text-xl font-bold mb-2">{post.title}</h2>
                                     <p className="text-gray-700">{post.content}</p>
                                     <div className="mt-4 text-xs text-gray-400 flex justify-between">
-                                        <p>Created At: {post.createdAt}</p>
-                                        <p>Updated At: {post.updatedAt}</p>
+                                        <p>Created At: {post.createdAt.substring(0, 10)}</p>
+                                        <p>Updated At: {post.updatedAt.substring(0, 10)}</p>
                                     </div>
                                 </div>
                             ))}
