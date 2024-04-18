@@ -92,4 +92,11 @@ const deletePost = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Post deleted successfully"));
 });
 
-export { createPost, getUserPosts, updatePost, deletePost };
+const getAllPosts = asyncHandler( async (req, res) => {
+    const posts = await Post.find().sort({ createdAt: -1 });
+    return res
+    .status(200)
+    .json(new ApiResponse(200, posts, "Posts retrieved successfully"));
+})
+
+export { createPost, getUserPosts, updatePost, deletePost,getAllPosts };
