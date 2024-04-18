@@ -17,6 +17,7 @@ import UpdatePostCommentPage from "./pages/comment/UpdatePostComment";
 import DeletePostCommentPage from "./pages/comment/DeletePostComment";
 import PrivateRoutes from './components/PrivateRoutes';
 import LoggedInRedirect from './components/LoggedInRedirect';
+import GetAllPostsPage from './pages/posts/GetAllPosts';
 function App() {
     // here pass myEmail as props to signup page
 
@@ -62,6 +63,7 @@ function App() {
                         <Route path="/getpost" element={<GetPostPage />} />
                         <Route path="/updatepost" element={<UpdatePostPage />} />
                         <Route path="/deletepost" element={<DeletePostPage />} />
+                        <Route path="/getallposts" element={<GetAllPostsPage />} />
                         {/*-------------------Vote-------------------*/}
                         <Route path="/votepost" element={<VotePostPage />} />
                         <Route path="/votecomment" element={<VoteCommentPage />} />
