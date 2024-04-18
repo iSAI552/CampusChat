@@ -93,7 +93,39 @@ const deletePost = asyncHandler(async (req, res) => {
 });
 
 const getAllPosts = asyncHandler( async (req, res) => {
-    const posts = await Post.find().sort({ createdAt: -1 });
+    // const posts = await Post.find().sort({ createdAt: -1 });
+    const posts = await Post.aggregate([
+        {
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $unwind: "$user"
+        },
+        {
+            $project: {
+                title: 1,
+                content: 1,
+                userId: 1,
+                username: "$user.username",
+                createdAt: 1,
+                updatedAt: 1,
+                upvotes: 1,
+                downvotes: 1,
+                groupId: 1,
+                tags: 1
+            }
+        }
+    ]);
+
+    if(!posts) {
+        throw new ApiError(404, "Posts not found");
+    }
+
     return res
     .status(200)
     .json(new ApiResponse(200, posts, "Posts retrieved successfully"));
