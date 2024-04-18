@@ -119,6 +119,9 @@ const getAllPosts = asyncHandler( async (req, res) => {
                 groupId: 1,
                 tags: 1
             }
+        },
+        {
+            $sort: { createdAt: -1 }
         }
     ]);
 
