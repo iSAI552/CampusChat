@@ -17,7 +17,6 @@ function LogOutPage() {
         try {
             const response = await axios.post("/api/v1/users/logout");
             setData(response.data);
-            console.log(response.data)
             if(response.data.success) {
                 setTimeout(() => {
                     navigate("/login")

@@ -1,22 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
-import { useLocation } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userIdAtom } from "../../store/atoms/userId";
 
 function GetPostPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [userId, setUserId] = useState("");
     const [formatedData, setFormatedData] = useState([]);
-    const location = useLocation();
-
-    useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const userIdFromURL = searchParams.get("userId");
-        if (userIdFromURL) {
-            setUserId(userIdFromURL);
-        }
-    }, [location.search]);
+    // const location = useLocation();
+    const userId = useRecoilState(userIdAtom)[0];
 
     const handleSubmit = async () => {
         setLoading(true);
