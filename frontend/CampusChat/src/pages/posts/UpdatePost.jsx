@@ -1,13 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useRecoilState } from "recoil";
+import { postIdAtom } from "../../store/atoms/postId";
 
 function UpdatePostPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState(null);
-    const [postId, setPostId] = useState(null);
+    const [postId, setPostId] = useRecoilState(postIdAtom);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
