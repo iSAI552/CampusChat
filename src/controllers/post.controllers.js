@@ -3,6 +3,7 @@ import { asyncHandler } from "../utils/AsyncHandler.js"
 import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js"
 import { isValidObjectId } from "mongoose";
+import jwt from "jsonwebtoken";
 
 const createPost = asyncHandler(async (req, res) => {
     const { title, content, groupId, tags } = req.body;
@@ -28,7 +29,9 @@ const createPost = asyncHandler(async (req, res) => {
 });
 
 const getUserPosts = asyncHandler(async (req, res) => {
-    const { userId } = req.params;
+    const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const userId = decodedToken?._id
     if(!isValidObjectId(userId)) {
         throw new ApiError(400, "Invalid user ID");
     }

@@ -1,22 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
-import { useRecoilState } from "recoil";
-import { userIdAtom } from "../../store/atoms/userId";
 
 function GetPostPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [formatedData, setFormatedData] = useState([]);
     // const location = useLocation();
-    const userId = useRecoilState(userIdAtom)[0];
 
     const handleSubmit = async () => {
         setLoading(true);
         setError(null);
 
         try {
-            const response = await axios.get(`/api/v1/post/user/${userId}`);
+            const response = await axios.get(`/api/v1/post/user/`);
             if (response.data.success) {
                 const temp = response.data.data.map((post) => ({
                     id: post._id,
