@@ -2,8 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { userIdAtom } from "../../store/atoms/userId";
 
 function LogInPage() {
     const [password, setPassword] = useState("");
@@ -12,7 +10,6 @@ function LogInPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const setUserId = useSetRecoilState(userIdAtom);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,7 +19,6 @@ function LogInPage() {
         try {
             const response = await axios.post("/api/v1/users/login", { username, password });
             setData(response.data);
-            setUserId(response.data.data.loggedInUser._id);
             navigate(`/getpost`);
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
