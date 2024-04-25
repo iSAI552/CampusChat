@@ -88,12 +88,12 @@ const Card = ({ formatedData }) => {
                             <FaThumbsDown className="mr-1" />
                             {post.downvotes}
                         </button>
-                        <button
+                       {!post.username && <button
                             onClick={() => handleDelete(post.id)}
                             className="flex items-center text-red-400 justify-end ml-auto"
                         >
                             <FaTrash className="mr-1" />
-                        </button>
+                        </button>}
                     </div>
                 </div>
             ))}
