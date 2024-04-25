@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import axios from "axios";
 
@@ -7,6 +7,30 @@ import axios from "axios";
 const Card = ({ formatedData }) => {
     // State to track vote status for each post
     const [voteStatus, setVoteStatus] = useState({});
+
+    useEffect(() => {
+        axios.get("/api/v1/vote/upvoted-posts")
+        .then((response) => {
+            const voteStatus = {};
+            response.data.data.forEach((post) => {
+                voteStatus[post.postId] = "upvote";
+            });
+            setVoteStatus(voteStatus);
+        })
+
+        axios.get("/api/v1/vote/downvoted-posts")
+        .then((response) => {
+            const voteStatus = {};
+            response.data.data.forEach((post) => {
+                voteStatus[post.postId] = "downvote";
+            });
+            setVoteStatus((prevStatus) => ({
+                ...prevStatus,
+                ...voteStatus,
+            }));
+        })
+       
+    }, []);
 
     // Function to handle voting for a post
     const handleVote = async (postId, voteType) => {
@@ -42,14 +66,14 @@ const Card = ({ formatedData }) => {
                     <div className="flex mt-4">
                         <button
                             onClick={() => handleVote(post.id, "upvote")}
-                            className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === 'upvote' ? 'text-blue-500' : ''}`}
+                            className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === 'upvote' ? 'text-blue-700' : ''}`}
                         >
                             <FaThumbsUp className="mr-1" />
                             {post.upvotes}
                         </button>
                         <button
                             onClick={() => handleVote(post.id, "downvote")}
-                            className={`flex items-center text-gray-500 ${voteStatus[post.id] === 'downvote' ? 'text-blue-500' : ''}`}
+                            className={`flex items-center text-gray-500 ${voteStatus[post.id] === 'downvote' ? 'text-blue-700' : ''}`}
                         >
                             <FaThumbsDown className="mr-1" />
                             {post.downvotes}

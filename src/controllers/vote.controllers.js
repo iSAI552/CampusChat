@@ -62,7 +62,7 @@ const votePost = asyncHandler(async (req, res) => {
         postId: postId,
     });
 
-    await updateVoteCount(postId);
+    updateVoteCount(postId);
 
     if (voteDoc) {
         return res.status(200).json(new ApiResponse(200, `${voteType}`));
@@ -119,22 +119,58 @@ const voteComment = asyncHandler(async (req, res) => {
 });
 
 const getUpvotedPosts = asyncHandler(async (req, res) => {
-    const posts = await Vote.find({
-        userId: req.user._id,
-        postId: { $exists: true },
-        voteType: "upvote",
-    }).populate("postId");
-
+    const posts = await Vote.aggregate([
+        {
+            $match: {
+                userId: req.user._id,
+                postId: { $exists: true },
+                voteType: "upvote",
+            },
+        },
+        {
+            $lookup: {
+                from: "posts",
+                localField: "postId",
+                foreignField: "_id",
+                as: "post",
+            },
+        },
+        {
+            $project:{
+                _id:0,
+                postId:1
+            }
+        }
+    ]);
     return res
         .status(200)
         .json(new ApiResponse(200, posts, "Liked Posts Fetched Successfully"));
 });
+
 const getDownVotedPosts = asyncHandler(async (req, res) => {
-    const posts = await Vote.find({
-        userId: req.user._id,
-        postId: { $exists: true },
-        voteType: "downvote",
-    }).populate("postId");
+    const posts = await Vote.aggregate([
+        {
+            $match: {
+                userId: req.user._id,
+                postId: { $exists: true },
+                voteType: "downvote",
+            },
+        },
+        {
+            $lookup: {
+                from: "posts",
+                localField: "postId",
+                foreignField: "_id",
+                as: "post",
+            },
+        },
+        {
+            $project:{
+                _id:0,
+                postId:1
+            }
+        }
+    ]);
 
     return res
         .status(200)

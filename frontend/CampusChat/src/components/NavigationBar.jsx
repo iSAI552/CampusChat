@@ -4,7 +4,7 @@ const NavigationBar = () => {
   const location = useLocation();
 
   // Check if the current location matches the OTP page route
-  const isOtpPage = location.pathname === '/otp';
+  const isOtpPage = (location.pathname === '/otp' || location.pathname === '/');
 
   // Check if the current location matches the Sign Up page route
   const isSignUpPage = location.pathname === '/signup';
