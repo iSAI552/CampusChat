@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react';
-import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaTrash } from "react-icons/fa";
 import axios from "axios";
 
 
@@ -46,10 +46,20 @@ const Card = ({ formatedData }) => {
         }
     };
 
+    const handleDelete = async (postId) => {
+        try {
+            await axios.delete(`/api/v1/post/${postId}`);
+            window.location.reload();
+        } catch (error) {
+            console.log(`Error while fetching the data ${error}`);
+        }
+    }
+
     return (
         <div className="mt-6">
             {formatedData.map((post) => (
-                <div key={post.id} className="bg-gray-100 p-6 rounded-lg shadow-md mb-4">
+                <div key={post.id} className="bg-gray-100 p-6 rounded-lg shadow-md mb-4 flex flex-col">
+
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <h2 className="text-xl font-bold mb-2">{post.title}</h2>
                         {post.username && (
@@ -77,6 +87,12 @@ const Card = ({ formatedData }) => {
                         >
                             <FaThumbsDown className="mr-1" />
                             {post.downvotes}
+                        </button>
+                        <button
+                            onClick={() => handleDelete(post.id)}
+                            className="flex items-center text-red-400 justify-end ml-auto"
+                        >
+                            <FaTrash className="mr-1" />
                         </button>
                     </div>
                 </div>
