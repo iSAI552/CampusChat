@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import axios from "axios";
+
 
 const Card = ({ formatedData }) => {
     // State to track vote status for each post
