@@ -20,11 +20,11 @@ const postSchema = new Schema({
         ref: "Group",
         required: true
     },
-    upVotes: {
+    upvotes: {
         type: Number,
         default: 0
     },
-    downVotes: {
+    downvotes: {
         type: Number,
         default: 0
     },

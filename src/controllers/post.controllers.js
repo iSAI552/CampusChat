@@ -36,7 +36,7 @@ const getUserPosts = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid user ID");
     }
 
-    const posts = await Post.find({ userId: userId })
+    const posts = await Post.find({ userId: userId }).sort({ createdAt: -1 });
 
     if(!posts) {
         throw new ApiError(404, "Posts not found");

@@ -5,6 +5,28 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 import { isValidObjectId } from "mongoose";
 import { Post } from "../models/post.models.js";
 
+const updateVotesCount = async () => {
+    try {
+        const result = await Vote.aggregate([
+            {
+                $group: {
+                    _id: "$postId",
+                    upvotes: { $sum: { $cond: [{ $eq: ["$voteType", "upvote"] }, 1, 0] } },
+                    downvotes: { $sum: { $cond: [{ $eq: ["$voteType", "downvote"] }, 1, 0] } }
+                }
+            }
+        ]);
+
+        // Update each post with the aggregated upvotes and downvotes
+        result.forEach(async (voteResult) => {
+            const { _id, upvotes, downvotes } = voteResult;
+            await Post.updateOne({ _id }, { upvotes, downvotes });
+        });
+    } catch (error) {
+        console.error("Error while updating upvotes and downvotes counts:", error);
+    }
+};
+
 const votePost = asyncHandler( async (req, res) => {
     const {postId, voteType} = req.params
     if(!isValidObjectId(postId)){
@@ -19,7 +41,7 @@ const votePost = asyncHandler( async (req, res) => {
         throw new ApiError(404, "Post Not Found")
     }
 
-    const voteDoc = await Vote.findOne({
+    let voteDoc = await Vote.findOne({
         userId: req.user._id,
         postId: postId
     })
@@ -41,10 +63,16 @@ const votePost = asyncHandler( async (req, res) => {
         }
     }
 
+    voteDoc = await Vote.findOne({
+        userId: req.user._id,
+        postId: postId
+    })
+    updateVotesCount();
+
     if(voteDoc){
-        return res.status(200).json(new ApiResponse(200, "Vote Updated Successfully"))
+        return res.status(200).json(new ApiResponse(200, `${voteType}`))
     } else{
-        return res.status(201).json(new ApiResponse(201, "Vote Added Successfully"))
+        return res.status(201).json(new ApiResponse(201, "None"))
     }
 
 })
@@ -102,5 +130,15 @@ const getUpvotedPosts = asyncHandler( async (req, res) => {
 
     return res.status(200).json(new ApiResponse(200, posts, "Liked Posts Fetched Successfully"))
 })
+const getDownVotedPosts = asyncHandler( async (req, res) => {
+    
+    const posts = await Vote.find({
+        userId: req.user._id,
+        postId: { $exists: true },
+        voteType: "downvote"
+    }).populate('postId')
 
-export {votePost, voteComment, getUpvotedPosts}
+    return res.status(200).json(new ApiResponse(200, posts, "Unliked Posts Fetched Successfully"))
+})
+
+export {votePost, voteComment, getUpvotedPosts, getDownVotedPosts}
