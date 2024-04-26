@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
 import { useRecoilState } from "recoil";
 import { postIdAtom } from "../../store/atoms/postId";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 function UpdatePostPage() {
     const [data, setData] = useState(null);
@@ -11,14 +11,6 @@ function UpdatePostPage() {
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState(null);
     const [postId, setPostId] = useRecoilState(postIdAtom);
-    const location = useLocation();
-
-    useEffect(() => {
-        const postId = new URLSearchParams(location.search).get('postId');
-        if (postId) {
-            setPostId(postId);
-        }
-    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -3,10 +3,15 @@ import { useState, useEffect } from "react";
 import { FaThumbsUp, FaThumbsDown, FaTrash, FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { Link } from "react-router-dom";
+// import { commentIdAtom } from "../store/atoms/commentId";
+import { postIdAtom } from "../store/atoms/postId";
+import { useSetRecoilState } from "recoil";
 
 const Card = ({ formatedData }) => {
     // State to track vote status for each post
     const [voteStatus, setVoteStatus] = useState({});
+    // const setCommentId = useSetRecoilState(commentIdAtom);
+    const setPostId = useSetRecoilState(postIdAtom);
 
     useEffect(() => {
         axios.get("/api/v1/vote/upvoted-posts").then((response) => {
@@ -98,6 +103,7 @@ const Card = ({ formatedData }) => {
                         {!post.username && (
                             <Link
                                 to={`/updatepost?postId=${post.id}`}
+                                onClick={() => setPostId(post.id)}
                                 className="flex items-center text-gray-500 justify-end ml-auto"
                             >
                                 <FaEdit className="mr-1" />
@@ -110,6 +116,16 @@ const Card = ({ formatedData }) => {
                             >
                                 <FaTrash className="mr-1" />
                             </button>
+                        )}
+                        {post.username && (
+                            <Link
+                                to={`/getpostcomment`}
+                                onClick={() => (
+                                    setPostId(post.id))}
+                                className="text-gray-500 justify-end ml-auto text-xs"
+                            >
+                                Comments
+                            </Link>
                         )}
                     </div>
                 </div>
