@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
 import Card from "../../components/Card";
@@ -8,8 +8,7 @@ function GetAllPostsPage() {
     const [loading, setLoading] = useState(false);
     const [formatedData, setFormatedData] = useState([]);
 
-
-    const handleSubmit = async () => {
+    const getData = async () => {
         setLoading(true);
         setError(null);
 
@@ -36,20 +35,28 @@ function GetAllPostsPage() {
         setLoading(false);
     };
 
+    useEffect(() => {
+        getData();
+    }, [])
+
     return (
         <div className="h-screen bg-gradient-to-br from-blue-400 to-blue-700 overflow-y-auto">
             <Container>
-                <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-                    <h1 className="text-3xl font-bold mb-6">Homepage</h1>
-                    <button
-                        onClick={handleSubmit}
-                        className="w-full bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
-                    >
-                        {loading ? "Loading..." : "Get All Posts"}
-                    </button>
-                    {loading && <p className="mt-2 text-gray-600">Loading...</p>}
-                    {error && <p className="mt-2 text-red-500">{error}</p>}
-                    {formatedData.length > 0 && <Card formatedData={formatedData} />}
+                <div className="mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+                    <h1 className="text-3xl font-bold mb-6 text-center">
+                        Homepage
+                    </h1>
+                    {loading && (
+                        <p className="mt-2 text-gray-600 text-center">
+                            Loading...
+                        </p>
+                    )}
+                    {error && (
+                        <p className="mt-2 text-red-500 text-center">{error}</p>
+                    )}
+                    {formatedData.length > 0 && (
+                        <Card formatedData={formatedData} />
+                    )}
                 </div>
             </Container>
         </div>
