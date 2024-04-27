@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
-import { mailSender } from "../utils/mailSender.js";
+// import { mailSender } from "../utils/mailSender.js";
 import bcrpt from "bcrypt";
+import { Resend } from 'resend';
 
 const otpSchema = new Schema(
     {
@@ -22,16 +23,26 @@ const otpSchema = new Schema(
 
 async function sendVerificationEMail(email, otp) {
     try {
-        const mailResponse = await mailSender(
-            email,
-            "Verification Email",
-            `<h1>Please confirm your OTP</h1>
-            <p>Here is your OTP code: ${otp}</p>`
-        );
-        if (!mailResponse) {
-            throw new Error(mailResponse.error);
-        }
+        // const mailResponse = await mailSender(
+        //     email,
+        //     "Verification Email",
+        //     `<h1>Please confirm your OTP</h1>
+        //     <p>Here is your OTP code: ${otp}</p>`
+        // );
+        // if (!mailResponse) {
+        //     throw new Error(mailResponse.error);
+        // }
 
+        // console.log("Email sent successfully");
+
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        resend.emails.send({
+            from: 'onboarding@resend.dev',
+            to: email,
+            subject: 'Verification Email',
+            html: ` <h1>Please confirm your OTP for CampusChat</h1>
+                    <p>Here is your OTP code: ${otp}</p>`
+        });
         console.log("Email sent successfully");
 
     } catch (error) {

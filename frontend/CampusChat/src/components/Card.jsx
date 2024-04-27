@@ -43,7 +43,7 @@ const Card = ({ formatedData }) => {
             // Update vote status for the clicked post based on response
             setVoteStatus((prevStatus) => ({
                 ...prevStatus,
-                [postId]: response.data.data, // Assuming response.data.data contains the vote status (upvote/downvote/None)
+                [postId]: response.data.data, // response.data.data contains the vote status (upvote/downvote/None)
             }));
         } catch (error) {
             console.error(`Error while fetching the data ${error}`);
@@ -88,14 +88,14 @@ const Card = ({ formatedData }) => {
                     <div className="flex mt-4">
                         <button
                             onClick={() => handleVote(post.id, "upvote")}
-                            className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === "upvote" ? "text-blue-700" : ""}`}
+                            className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === "upvote" ? "text-blue-500" : ""}`}
                         >
                             <FaThumbsUp className="mr-1" />
                             {post.upvotes}
                         </button>
                         <button
                             onClick={() => handleVote(post.id, "downvote")}
-                            className={`flex items-center text-gray-500 ${voteStatus[post.id] === "downvote" ? "text-blue-700" : ""}`}
+                            className={`flex items-center text-gray-500 ${voteStatus[post.id] === "downvote" ? "text-blue-500" : ""}`}
                         >
                             <FaThumbsDown className="mr-1" />
                             {post.downvotes}
