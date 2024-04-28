@@ -56,11 +56,7 @@ function GetAllPostsPage() {
                     )}
                     {formattedData.length > 0 && (
                         formattedData.map((post) => (
-                            <Card
-                                key={post.id}
-                                post={post}
-                                getData={getData}
-                            />
+                            <Card key={post.id} post={post} />
                         ))
                     )}
                 </div>

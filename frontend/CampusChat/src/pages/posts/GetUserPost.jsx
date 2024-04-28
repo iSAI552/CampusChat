@@ -45,11 +45,14 @@ function GetPostPage() {
             <Container>
                 <div className=" mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
                     <h1 className="text-3xl font-bold mb-6">User Posts</h1>
-                    {loading && <p className="mt-2 text-gray-600">Loading...</p>}
+                    {loading && (
+                        <p className="mt-2 text-gray-600">Loading...</p>
+                    )}
                     {error && <p className="mt-2 text-red-500">{error}</p>}
-                    {formattedData.length > 0 && 
-                        <Card formattedData={formattedData} />
-}
+                    {formattedData.length > 0 &&
+                        formattedData.map((post) => (
+                            <Card key={post.id} post={post} />
+                        ))}
                 </div>
             </Container>
         </div>

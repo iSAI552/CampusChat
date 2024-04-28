@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { postIdAtom } from "../store/atoms/postId";
 import { useSetRecoilState } from "recoil";
 
-const Card = ({ formattedData }) => {
+const Card = ({ post }) => {
     // State to track vote status for each post
     const [voteStatus, setVoteStatus] = useState({});
     // const setCommentId = useSetRecoilState(commentIdAtom);
@@ -61,75 +61,72 @@ const Card = ({ formattedData }) => {
 
     return (
         <div className="mt-6">
-            {formattedData.map((post) => (
+            <div
+                key={post.id}
+                className="bg-gray-100 p-6 rounded-lg shadow-md mb-4 flex flex-col"
+            >
                 <div
-                    key={post.id}
-                    className="bg-gray-100 p-6 rounded-lg shadow-md mb-4 flex flex-col"
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                    }}
                 >
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center",
-                        }}
-                    >
-                        <h2 className="text-xl font-bold mb-2">{post.title}</h2>
-                        {post.username && (
-                            <p className="mt-2 text-sm text-gray-500">
-                                Posted by: {post.username}
-                            </p>
-                        )}
-                    </div>
-                    <p className="text-gray-700">{post.content}</p>
-                    <div className="mt-4 text-xs text-gray-400 flex justify-between">
-                        <p>Created At: {post.createdAt.substring(0, 10)}</p>
-                        <p>Updated At: {post.updatedAt.substring(0, 10)}</p>
-                    </div>
-                    <div className="flex mt-4">
-                        <button
-                            onClick={() => handleVote(post.id, "upvote")}
-                            className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === "upvote" ? "text-blue-500" : ""}`}
-                        >
-                            <FaThumbsUp className="mr-1" />
-                            {post.upvotes}
-                        </button>
-                        <button
-                            onClick={() => handleVote(post.id, "downvote")}
-                            className={`flex items-center text-gray-500 ${voteStatus[post.id] === "downvote" ? "text-blue-500" : ""}`}
-                        >
-                            <FaThumbsDown className="mr-1" />
-                            {post.downvotes}
-                        </button>
-                        {!post.username && (
-                            <Link
-                                to={`/updatepost?postId=${post.id}`}
-                                onClick={() => setPostId(post.id)}
-                                className="flex items-center text-gray-500 justify-end ml-auto"
-                            >
-                                <FaEdit className="mr-1" />
-                            </Link>
-                        )}
-                        {!post.username && (
-                            <button
-                                onClick={() => handleDelete(post.id)}
-                                className="flex items-center text-red-400 justify-end ml-auto"
-                            >
-                                <FaTrash className="mr-1" />
-                            </button>
-                        )}
-                        {post.username && (
-                            <Link
-                                to={`/getpostcomment`}
-                                onClick={() => (
-                                    setPostId(post.id))}
-                                className="text-gray-500 justify-end ml-auto text-xs"
-                            >
-                                Comments
-                            </Link>
-                        )}
-                    </div>
+                    <h2 className="text-xl font-bold mb-2">{post.title}</h2>
+                    {post.username && (
+                        <p className="mt-2 text-sm text-gray-500">
+                            Posted by: {post.username}
+                        </p>
+                    )}
                 </div>
-            ))}
+                <p className="text-gray-700">{post.content}</p>
+                <div className="mt-4 text-xs text-gray-400 flex justify-between">
+                    <p>Created At: {post.createdAt.substring(0, 10)}</p>
+                    <p>Updated At: {post.updatedAt.substring(0, 10)}</p>
+                </div>
+                <div className="flex mt-4">
+                    <button
+                        onClick={() => handleVote(post.id, "upvote")}
+                        className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === "upvote" ? "text-blue-500" : ""}`}
+                    >
+                        <FaThumbsUp className="mr-1" />
+                        {post.upvotes}
+                    </button>
+                    <button
+                        onClick={() => handleVote(post.id, "downvote")}
+                        className={`flex items-center text-gray-500 ${voteStatus[post.id] === "downvote" ? "text-blue-500" : ""}`}
+                    >
+                        <FaThumbsDown className="mr-1" />
+                        {post.downvotes}
+                    </button>
+                    {!post.username && (
+                        <Link
+                            to={`/updatepost?postId=${post.id}`}
+                            onClick={() => setPostId(post.id)}
+                            className="flex items-center text-gray-500 justify-end ml-auto"
+                        >
+                            <FaEdit className="mr-1" />
+                        </Link>
+                    )}
+                    {!post.username && (
+                        <button
+                            onClick={() => handleDelete(post.id)}
+                            className="flex items-center text-red-400 justify-end ml-auto"
+                        >
+                            <FaTrash className="mr-1" />
+                        </button>
+                    )}
+                    {post.username && (
+                        <Link
+                            to={`/getpostcomment`}
+                            onClick={() => setPostId(post.id)}
+                            className="text-gray-500 justify-end ml-auto text-xs"
+                        >
+                            Comments
+                        </Link>
+                    )}
+                </div>
+            </div>
         </div>
     );
 };
