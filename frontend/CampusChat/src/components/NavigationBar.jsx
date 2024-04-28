@@ -16,7 +16,7 @@ const NavigationBar = () => {
     <nav className="bg-gray-800 fixed top-0 left-0 right-0 z-10">
       <div className="mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <Link className="text-white text-2xl font-bold" to="/otp">Your App</Link>
+          <Link className="text-white text-2xl font-bold" to="/otp">Campus Chat </Link>
           <div className="hidden md:block">
             <ul className="flex space-x-4 text-white">
               {/* Condition for OTP page */}

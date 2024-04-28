@@ -1,13 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useRecoilState } from "recoil";
+import { postIdAtom } from "../../store/atoms/postId";
 
 // eslint-disable-next-line react/prop-types
 function AddPostCommentPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [postId, setPostId] = useState(null)
+    const [postId, setPostId] = useRecoilState(postIdAtom);
     const [content, setContent] = useState(null)
 
     const handelSubmit = async (e) => {

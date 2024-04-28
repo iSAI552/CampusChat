@@ -6,7 +6,7 @@ import Card from "../../components/Card";
 function GetAllPostsPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [formatedData, setFormatedData] = useState([]);
+    const [formattedData, setFormatedData] = useState([]);
 
     const getData = async () => {
         setLoading(true);
@@ -54,8 +54,14 @@ function GetAllPostsPage() {
                     {error && (
                         <p className="mt-2 text-red-500 text-center">{error}</p>
                     )}
-                    {formatedData.length > 0 && (
-                        <Card formatedData={formatedData} />
+                    {formattedData.length > 0 && (
+                        formattedData.map((post) => (
+                            <Card
+                                key={post.id}
+                                post={post}
+                                getData={getData}
+                            />
+                        ))
                     )}
                 </div>
             </Container>

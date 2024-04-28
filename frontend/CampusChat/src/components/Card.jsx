@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { postIdAtom } from "../store/atoms/postId";
 import { useSetRecoilState } from "recoil";
 
-const Card = ({ formatedData }) => {
+const Card = ({ formattedData }) => {
     // State to track vote status for each post
     const [voteStatus, setVoteStatus] = useState({});
     // const setCommentId = useSetRecoilState(commentIdAtom);
@@ -61,7 +61,7 @@ const Card = ({ formatedData }) => {
 
     return (
         <div className="mt-6">
-            {formatedData.map((post) => (
+            {formattedData.map((post) => (
                 <div
                     key={post.id}
                     className="bg-gray-100 p-6 rounded-lg shadow-md mb-4 flex flex-col"

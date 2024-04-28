@@ -6,7 +6,7 @@ import Card from "../../components/Card";
 function GetPostPage() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [formatedData, setFormatedData] = useState([]);
+    const [formattedData, setFormatedData] = useState([]);
     // const location = useLocation();
 
     const getData = async () => {
@@ -47,8 +47,8 @@ function GetPostPage() {
                     <h1 className="text-3xl font-bold mb-6">User Posts</h1>
                     {loading && <p className="mt-2 text-gray-600">Loading...</p>}
                     {error && <p className="mt-2 text-red-500">{error}</p>}
-                    {formatedData.length > 0 && 
-                        <Card formatedData={formatedData} />
+                    {formattedData.length > 0 && 
+                        <Card formattedData={formattedData} />
 }
                 </div>
             </Container>

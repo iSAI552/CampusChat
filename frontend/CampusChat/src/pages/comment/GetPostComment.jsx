@@ -24,7 +24,7 @@ function GetPostCommentPage() {
         }
         setLoading(false);
     };
-
+    
     return (
         <div className="h-screen bg-gradient-to-br from-blue-400 to-blue-700 overflow-y-auto">
             <Container>
@@ -42,9 +42,16 @@ function GetPostCommentPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
                         >
                             {loading ? "Loading..." : "Get the Comments"}
+                        </button>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="bg-gray-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-gray-600"
+                        >
+                            {loading ? "Loading..." : "Add a Comment"}
                         </button>
                     </form>
                     {loading && <p className="mt-2 text-gray-600">Loading...</p>}
