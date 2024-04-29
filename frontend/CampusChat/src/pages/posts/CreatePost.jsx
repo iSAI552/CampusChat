@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
+import { useNavigate } from "react-router-dom";
 
 function CreatePostPage() {
     const [data, setData] = useState(null);
@@ -9,6 +10,7 @@ function CreatePostPage() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [groupId, setGroupId] = useState("65f2c34dc64f9becf43d4fe7");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +28,9 @@ function CreatePostPage() {
             setError(`Error while fetching the data ${error}`);
         }
         setLoading(false);
+        setTimeout(() => {
+            navigate("/getAllPosts");
+        }, 1000);
     };
 
     return (

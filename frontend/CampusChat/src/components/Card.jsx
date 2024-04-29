@@ -87,14 +87,14 @@ const Card = ({ post }) => {
                 <div className="flex mt-4">
                     <button
                         onClick={() => handleVote(post.id, "upvote")}
-                        className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === "upvote" ? "text-blue-500" : ""}`}
+                        className={`flex items-center text-gray-500 mr-2 ${voteStatus[post.id] === "upvote" ? "text-blue-700" : ""}`}
                     >
                         <FaThumbsUp className="mr-1" />
                         {post.upvotes}
                     </button>
                     <button
                         onClick={() => handleVote(post.id, "downvote")}
-                        className={`flex items-center text-gray-500 ${voteStatus[post.id] === "downvote" ? "text-blue-500" : ""}`}
+                        className={`flex items-center text-gray-500 ${voteStatus[post.id] === "downvote" ? "text-blue-700" : ""}`}
                     >
                         <FaThumbsDown className="mr-1" />
                         {post.downvotes}

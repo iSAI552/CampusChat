@@ -3,6 +3,7 @@ import axios from "axios";
 import Container from "../../components/Container";
 import { useRecoilState } from "recoil";
 import { postIdAtom } from "../../store/atoms/postId";
+import { useNavigate } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 
 function UpdatePostPage() {
@@ -11,6 +12,7 @@ function UpdatePostPage() {
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState(null);
     const [postId, setPostId] = useRecoilState(postIdAtom);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +28,9 @@ function UpdatePostPage() {
             setError(`Error while fetching the data ${error}`);
         }
         setLoading(false);
+        setTimeout(() => {
+            navigate("/getpost");
+        }, 1000);
     };
 
     return (
