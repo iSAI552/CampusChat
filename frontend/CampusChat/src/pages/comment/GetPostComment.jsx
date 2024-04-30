@@ -4,15 +4,16 @@ import Container from "../../components/Container";
 // import Card from "../../components/Card";
 import { useRecoilState } from "recoil";
 import { postIdAtom } from "../../store/atoms/postId";
+import { useNavigate } from "react-router-dom";
 
 function GetPostCommentPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [postId, setPostId] = useRecoilState(postIdAtom);
+    const navigate = useNavigate()
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handelGetComments = async () => {
         setLoading(true);
         setError(null);
 
@@ -24,13 +25,25 @@ function GetPostCommentPage() {
         }
         setLoading(false);
     };
+
+    const handelAddComments = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            navigate(`/addpostcomment`)
+        } catch (error) {
+            setError(`Error while fetching the data ${error}`)
+        }
+
+    }
     
     return (
         <div className="h-screen bg-gradient-to-br from-blue-400 to-blue-700 overflow-y-auto">
             <Container>
                 <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
                     <h1 className="text-3xl font-bold mb-6">Get comment of a post</h1>
-                    <form onSubmit={handleSubmit}>
+                    <div>
                         <input
                             type="text"
                             value={postId}
@@ -42,6 +55,7 @@ function GetPostCommentPage() {
                         <button
                             type="submit"
                             disabled={loading}
+                            onClick={handelGetComments}
                             className="bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
                         >
                             {loading ? "Loading..." : "Get the Comments"}
@@ -49,11 +63,12 @@ function GetPostCommentPage() {
                         <button
                             type="submit"
                             disabled={loading}
+                            onClick={handelAddComments}
                             className="bg-gray-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-gray-600"
                         >
                             {loading ? "Loading..." : "Add a Comment"}
                         </button>
-                    </form>
+                    </div>
                     {loading && <p className="mt-2 text-gray-600">Loading...</p>}
                     {error && <p className="mt-2 text-red-500">{error}</p>}
                     {data && (
