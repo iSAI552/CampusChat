@@ -12,7 +12,7 @@ function UpdatePostCommentPage() {
     const [commentId, setCommentId] = useRecoilState(commentIdAtom);
     const [content, setContent] = useState(null)
 
-    const handelSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
@@ -33,7 +33,7 @@ function UpdatePostCommentPage() {
         <>
             <Container>
                 <h1>Update comment on post</h1>
-                <form onSubmit={handelSubmit}>
+                <form onSubmit={handleSubmit}>
                     <input type="text" value={commentId} onChange={(e) => setCommentId(e.target.value)} placeholder="Id of the comment" required />
                     <input type="text" value={content} onChange={(e) => setContent(e.target.value)} placeholder="Updated Comment" />
                     <br></br>

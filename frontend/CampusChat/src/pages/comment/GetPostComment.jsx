@@ -13,7 +13,7 @@ function GetPostCommentPage() {
     const [postId, setPostId] = useRecoilState(postIdAtom);
     const navigate = useNavigate()
 
-    const handelGetComments = async () => {
+    const handleGetComments = async () => {
         setLoading(true);
         setError(null);
 
@@ -26,7 +26,7 @@ function GetPostCommentPage() {
         setLoading(false);
     };
 
-    const handelAddComments = async () => {
+    const handleAddComments = async () => {
         setLoading(true);
         setError(null);
 
@@ -55,7 +55,7 @@ function GetPostCommentPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            onClick={handelGetComments}
+                            onClick={handleGetComments}
                             className="bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
                         >
                             {loading ? "Loading..." : "Get the Comments"}
@@ -63,7 +63,7 @@ function GetPostCommentPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            onClick={handelAddComments}
+                            onClick={handleAddComments}
                             className="bg-gray-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-gray-600"
                         >
                             {loading ? "Loading..." : "Add a Comment"}

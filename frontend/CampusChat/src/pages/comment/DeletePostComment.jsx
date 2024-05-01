@@ -9,7 +9,7 @@ function DeletePostCommentPage() {
     const [loading, setLoading] = useState(false);
     const [commentId, setCommentId] = useState(null)
 
-    const handelSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
@@ -29,7 +29,7 @@ function DeletePostCommentPage() {
         <>
             <Container>
                 <h1>Delete comment of a post</h1>
-                <form onSubmit={handelSubmit}>
+                <form onSubmit={handleSubmit}>
                     <input type="text" value={commentId} onChange={(e) => setCommentId(e.target.value)} placeholder="Id of the comment" required />
                     <br></br>
                     <button type="submit" disabled={loading}>Delete</button>

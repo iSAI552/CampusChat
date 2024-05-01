@@ -31,8 +31,8 @@ const generateaccessandRefreshToken = async (userId) => {
 
 
 const registerUser = asyncHandler( async (req, res) => {
-    // *** handel the the rsakeys - to send the public key and using private key decrypt the user info 
-   // handel the email otp
+    // *** handle the the rsakeys - to send the public key and using private key decrypt the user info 
+   // handle the email otp
 
     const { email, password, otp} = req.body
     let {username} = req.body

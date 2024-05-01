@@ -11,7 +11,7 @@ function VoteCommentPage() {
     const [voteType, setVoteType] = useState(null)
 
 
-    const handelSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
@@ -31,7 +31,7 @@ function VoteCommentPage() {
         <>
             <Container>
                 <h1>Vote the comment of ID: </h1>
-                <form onSubmit={handelSubmit}>
+                <form onSubmit={handleSubmit}>
                     <input type="text" value={commentId} onChange={(e) => setCommentId(e.target.value)} placeholder="ID of the comment" />
                     <button type="submit" onClick={() => setVoteType("upvote")}>Upvote</button>
                     <button type="submit" onClick={() => setVoteType("downvote")}>Downvote</button>

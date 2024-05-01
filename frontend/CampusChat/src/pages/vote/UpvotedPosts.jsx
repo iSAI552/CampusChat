@@ -9,7 +9,7 @@ function UpvotedPostsPage() {
     const [loading, setLoading] = useState(false);
 
 
-    const handelSubmit = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
@@ -29,7 +29,7 @@ function UpvotedPostsPage() {
         <>
             <Container>
                 <h1>Get your upvoted Posts </h1>
-                <button onClick={handelSubmit}>Get Upvoted Posts</button>
+                <button onClick={handleSubmit}>Get Upvoted Posts</button>
                 {loading && <p>Loading...</p>}
                 {error && <p>{error}</p>}
                 {data && (
