@@ -3,6 +3,7 @@ import axios from "axios";
 import Container from "../../components/Container";
 import { useRecoilState } from "recoil";
 import { postIdAtom } from "../../store/atoms/postId";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 function AddPostCommentPage() {
@@ -11,6 +12,7 @@ function AddPostCommentPage() {
     const [loading, setLoading] = useState(false);
     const [postId, setPostId] = useRecoilState(postIdAtom);
     const [content, setContent] = useState(null);
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,6 +24,9 @@ function AddPostCommentPage() {
                 content,
             });
             setData(response.data);
+            setTimeout(() => {
+                navigate("/getpostcomment")
+            }, 1000);
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
         }

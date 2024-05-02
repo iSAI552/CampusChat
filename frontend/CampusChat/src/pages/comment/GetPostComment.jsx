@@ -5,6 +5,7 @@ import Container from "../../components/Container";
 import { useRecoilState } from "recoil";
 import { postIdAtom } from "../../store/atoms/postId";
 import { useNavigate } from "react-router-dom";
+import Card from '../../components/Card'
 
 function GetPostCommentPage() {
     const [data, setData] = useState(null);
@@ -19,7 +20,22 @@ function GetPostCommentPage() {
 
         try {
             const response = await axios.get(`/api/v1/comment/${postId}`);
-            setData(response.data);
+            console.log(response.data.data["docs"][0])
+            if(response.data.success){
+                const temp = response.data.data["docs"].map((comment) => ({
+                    id: comment._id,
+                    title: comment.title,
+                    content: comment.content,
+                    username: comment.username,
+                    createdAt: comment.createdAt,
+                    updatedAt: comment.updatedAt,
+                    upvotes: comment.upvotes,
+                    downvotes: comment.downvotes,
+                    groupId: comment.groupId,
+                    tags: comment.tags,
+                }))
+                setData(temp)
+            }
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
         }
@@ -72,10 +88,13 @@ function GetPostCommentPage() {
                     {loading && <p className="mt-2 text-gray-600">Loading...</p>}
                     {error && <p className="mt-2 text-red-500">{error}</p>}
                     {data && (
-                        <div>
-                            <h2 className="text-xl font-semibold mt-6 mb-2">Data fetched</h2>
-                            <p className="text-gray-700">{JSON.stringify(data["data"])}</p>
-                        </div>
+                        // <div>
+                        //     <h2 className="text-xl font-semibold mt-6 mb-2">Data fetched</h2>
+                        //     <p className="text-gray-700">{JSON.stringify(data["data"])}</p>
+                        // </div>
+                        data.map((post) => {
+                            <Card key={post.id} post={post} />
+                        })
                     )}
                 </div>
             </Container>
