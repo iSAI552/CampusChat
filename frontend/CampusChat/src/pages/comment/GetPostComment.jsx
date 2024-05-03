@@ -1,11 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
-// import Card from "../../components/Card";
 import { useRecoilState } from "recoil";
 import { postIdAtom } from "../../store/atoms/postId";
 import { useNavigate } from "react-router-dom";
-import Card from '../../components/Card'
+import CommentsCard from "../../components/CommentCard";
 
 function GetPostCommentPage() {
     const [data, setData] = useState(null);
@@ -20,22 +19,23 @@ function GetPostCommentPage() {
 
         try {
             const response = await axios.get(`/api/v1/comment/${postId}`);
-            console.log(response.data.data["docs"][0])
-            if(response.data.success){
-                const temp = response.data.data["docs"].map((comment) => ({
-                    id: comment._id,
-                    title: comment.title,
-                    content: comment.content,
-                    username: comment.username,
-                    createdAt: comment.createdAt,
-                    updatedAt: comment.updatedAt,
-                    upvotes: comment.upvotes,
-                    downvotes: comment.downvotes,
-                    groupId: comment.groupId,
-                    tags: comment.tags,
-                }))
-                setData(temp)
-            }
+            // if(response.data.success){
+            //     const temp = response.data.data["docs"].map((comment) => ({
+            //         id: comment._id,
+            //         title: "",
+            //         content: comment.content,
+            //         username: "",
+            //         createdAt: comment.createdAt,
+            //         updatedAt: comment.updatedAt,
+            //         upvotes: comment.upvotes,
+            //         downvotes: comment.downvotes,
+            //         groupId: "",
+            //         tags: null,
+            //     }))
+            //     console.log(temp)
+            //     setData(temp)
+            setData(response.data.data["docs"])
+            // }
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
         }
@@ -92,9 +92,9 @@ function GetPostCommentPage() {
                         //     <h2 className="text-xl font-semibold mt-6 mb-2">Data fetched</h2>
                         //     <p className="text-gray-700">{JSON.stringify(data["data"])}</p>
                         // </div>
-                        data.map((post) => {
-                            <Card key={post.id} post={post} />
-                        })
+                        data.map((comment) => (
+                            <CommentsCard key={comment.id} comment={comment} />
+                        ))
                     )}
                 </div>
             </Container>
