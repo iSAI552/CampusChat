@@ -1,18 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { postIdAtom } from "../../store/atoms/postId";
-import { commentIdAtom } from "../../store/atoms/commentId";
 import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-function AddPostCommentPage() {
+function AddReplyCommentPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const postId = useRecoilValue(postIdAtom);
-    const commentId = useRecoilValue(commentIdAtom)
+    const [postId, setPostId] = useRecoilState(postIdAtom);
     const [content, setContent] = useState(null);
     const navigate = useNavigate()
 
@@ -44,12 +42,18 @@ function AddPostCommentPage() {
                             Add Comment:
                         </h1>
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            <h3>Add Reply to comment ${commentId} of post ${postId}</h3>
+                            <input
+                                type="text"
+                                value={postId}
+                                onChange={(e) => setPostId(e.target.value)}
+                                placeholder="ID of the post"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300"
+                            />
                             <textarea
                                 type="text"
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
-                                placeholder="Reply"
+                                placeholder="Comment"
                                 className="w-full h-32 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 resize-none"
                             />
 
@@ -58,7 +62,7 @@ function AddPostCommentPage() {
                                 disabled={loading}
                                 className="w-full bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
                             >
-                                {loading ? "Updating..." : "Reply to Comment"}
+                                {loading ? "Updating..." : "Add Comment"}
                             </button>
                         </form>
                         {loading && (
@@ -80,4 +84,4 @@ function AddPostCommentPage() {
     );
 }
 
-export default AddPostCommentPage;
+export default AddReplyCommentPage;

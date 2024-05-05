@@ -5,31 +5,12 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { commentIdAtom } from "../store/atoms/commentId";
 import { useSetRecoilState } from "recoil";
+import { postIdAtom } from "../store/atoms/postId";
 
 const CommentsCard = ({ comment }) => {
     const [voteStatus, setVoteStatus] = useState({});
     const setCommentId = useSetRecoilState(commentIdAtom);
-
-    // useEffect(() => {
-    //     axios.get("/api/v1/vote/upvoted-comments").then((response) => {
-    //         const voteStatus = {};
-    //         response.data.data.forEach((comment) => {
-    //             voteStatus[comment._id] = "upvote";
-    //         });
-    //         setVoteStatus(voteStatus);
-    //     });
-
-    //     axios.get("/api/v1/vote/downvoted-comments").then((response) => {
-    //         const voteStatus = {};
-    //         response.data.data.forEach((comment) => {
-    //             voteStatus[comment._id] = "downvote";
-    //         });
-    //         setVoteStatus((prevStatus) => ({
-    //             ...prevStatus,
-    //             ...voteStatus,
-    //         }));
-    //     });
-    // }, []);
+    const setPostId = useSetRecoilState(postIdAtom)
 
     const handleVote = async (commentId, voteType) => {
         try {
@@ -96,11 +77,21 @@ const CommentsCard = ({ comment }) => {
                             <FaTrash className="mr-1" />
                         </button>
                         <Link
-                            to={`/updatecomment?commentId=${comment._id}`}
+                            to={`/updatecomment`}
                             onClick={() => setCommentId(comment._id)}
                             className="flex items-center text-gray-500 justify-end ml-auto"
                         >
                             <FaEdit className="mr-1" />
+                        </Link>
+                        <Link
+                            to={`/getpostcomment`}
+                            onClick={() => {
+                                setCommentId(comment._id)
+                                setPostId(comment.post_id)
+                            }}
+                            className="text-gray-500 justify-end ml-auto text-xs"
+                        >
+                            Reply
                         </Link>
                     </div>
                 </div>

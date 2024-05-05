@@ -3,14 +3,12 @@ import { useState, useEffect } from "react";
 import { FaThumbsUp, FaThumbsDown, FaTrash, FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import { commentIdAtom } from "../store/atoms/commentId";
 import { postIdAtom } from "../store/atoms/postId";
 import { useSetRecoilState } from "recoil";
 
 const Card = ({ post }) => {
     // State to track vote status for each post
     const [voteStatus, setVoteStatus] = useState({});
-    // const setCommentId = useSetRecoilState(commentIdAtom);
     const setPostId = useSetRecoilState(postIdAtom);
 
     useEffect(() => {
@@ -101,7 +99,7 @@ const Card = ({ post }) => {
                     </button>
                     {!post.username && (
                         <Link
-                            to={`/updatepost?postId=${post.id}`}
+                            to={`/updatepost`}
                             onClick={() => setPostId(post.id)}
                             className="flex items-center text-gray-500 justify-end ml-auto"
                         >
