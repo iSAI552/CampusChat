@@ -157,4 +157,65 @@ const deletePostComment = asyncHandler( async (req, res) => {
 
 })
 
-export {getPostComments, addPostComment, updatePostComment, deletePostComment}
+const getCommentReply = asyncHandler( async (req, res) => {
+    const {commentId} = req.params;
+    const {page = 1, limit = 10} = req.query
+
+    if(!isValidObjectId(commentId)){
+        throw new ApiError(404, "Invalid PostId")
+    }
+
+    if(!(await Comment.findById(commentId))) throw new ApiError(404,"Comment Not Found")
+
+    const replies = await Comment.aggregatePaginate([
+        {
+            $match: {
+                commentId
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $project: {
+                "user.password": 0,
+                "user.email": 0,
+                "user.refreshToken": 0
+            }
+        },
+        {
+            $sort: {
+                createdAt: -1
+            }
+        },
+        {
+            $skip: limit * (page - 1)
+        },
+        {
+            $limit: limit
+        }
+    ])
+
+
+    if(!replies){
+        throw new ApiError(404, "No Replies Found")
+    }
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(
+            200,
+            replies,
+            "Comments Fetched Successfully"
+        )
+    )
+
+})
+
+export {getPostComments, addPostComment, updatePostComment, deletePostComment, getCommentReply}
