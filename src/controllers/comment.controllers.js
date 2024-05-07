@@ -170,7 +170,7 @@ const getCommentReply = asyncHandler( async (req, res) => {
     const replies = await Comment.aggregatePaginate([
         {
             $match: {
-                commentId
+                parentCommentId: commentId
             }
         },
         {
@@ -218,4 +218,33 @@ const getCommentReply = asyncHandler( async (req, res) => {
 
 })
 
-export {getPostComments, addPostComment, updatePostComment, deletePostComment, getCommentReply}
+const addCommentReply = asyncHandler( async (req, res) => {
+    const { commentId} = req.params
+    const {content} = req.body
+
+    if(!isValidObjectId(commentId)){
+        throw new ApiError(404, "Invalid CommentId")
+    }
+    const parentComment = await Comment.findById(commentId)
+    if(!parentComment) throw new ApiError(404,"Comment Not Found")
+
+    const reply = await Comment.create({
+        postId : parentComment.postId || null,
+        userId: req.user._id,
+        content: content,
+        parentCommentId: parentComment._id || null,
+    })
+
+    return res
+    .status(201)
+    .json(
+        new ApiResponse(
+            201,
+            reply,
+            "Reply Added Successfully"
+        )
+    )
+
+})
+
+export {getPostComments, addPostComment, updatePostComment, deletePostComment, getCommentReply, addCommentReply}
