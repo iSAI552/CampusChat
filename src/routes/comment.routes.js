@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPostComments, addPostComment, updatePostComment, deletePostComment } from "../controllers/comment.controllers.js";
+import { getPostComments, addPostComment, updateComment, deleteComment } from "../controllers/comment.controllers.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router()
@@ -7,7 +7,7 @@ const router = Router()
 router.use(verifyJWT)
 
 router.route("/:postId").get(getPostComments).post(addPostComment)
-router.route("/:commentId").patch(updatePostComment).delete(deletePostComment)
+router.route("/:commentId").patch(updateComment).delete(deleteComment)
 
 export default router
 

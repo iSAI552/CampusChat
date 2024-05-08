@@ -95,7 +95,7 @@ const addPostComment = asyncHandler( async (req, res) => {
 
 })
 
-const updatePostComment = asyncHandler( async (req, res) => {
+const updateComment = asyncHandler( async (req, res) => {
     const {commentId} = req.params
     const {content} = req.body
 
@@ -126,7 +126,7 @@ const updatePostComment = asyncHandler( async (req, res) => {
 
 })
 
-const deletePostComment = asyncHandler( async (req, res) => {
+const deleteComment = asyncHandler( async (req, res) => {
     const {commentId} = req.params
 
     if(!isValidObjectId(commentId)){
@@ -247,4 +247,5 @@ const addCommentReply = asyncHandler( async (req, res) => {
 
 })
 
-export {getPostComments, addPostComment, updatePostComment, deletePostComment, getCommentReply, addCommentReply}
+
+export {getPostComments, addPostComment, updateComment, deleteComment, getCommentReply, addCommentReply}
