@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
 import { useRecoilState } from "recoil";
-import { postIdAtom } from "../../store/atoms/postId";
+import { commentIdAtom } from "../../store/atoms/commentId";
 import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
@@ -10,7 +10,7 @@ function AddReplyCommentPage() {
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [postId, setPostId] = useRecoilState(postIdAtom);
+    const [commentId, setCommentId] = useRecoilState(commentIdAtom);
     const [content, setContent] = useState(null);
     const navigate = useNavigate()
 
@@ -20,7 +20,7 @@ function AddReplyCommentPage() {
         setError(null);
 
         try {
-            const response = await axios.post(`/api/v1/comment/${postId}`, {
+            const response = await axios.post(`/api/v1/comment/reply/${commentId}`, {
                 content,
             });
             setData(response.data);
@@ -44,8 +44,8 @@ function AddReplyCommentPage() {
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <input
                                 type="text"
-                                value={postId}
-                                onChange={(e) => setPostId(e.target.value)}
+                                value={commentId}
+                                onChange={(e) => setCommentId(e.target.value)}
                                 placeholder="ID of the post"
                                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300"
                             />
