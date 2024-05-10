@@ -18,6 +18,8 @@ import DeletePostCommentPage from "./pages/comment/DeletePostComment";
 import PrivateRoutes from "./components/PrivateRoutes";
 import LoggedInRedirect from "./components/LoggedInRedirect";
 import GetAllPostsPage from "./pages/posts/GetAllPosts";
+import GetCommentReplyPage from "./pages/comment/GetCommentReply";
+import AddReplyCommentPage from "./pages/comment/AddReplyComment";
 import { RecoilRoot } from "recoil";
 function App() {
     // here pass myEmail as props to signup page
@@ -91,7 +93,7 @@ function App() {
                                 path="/upvotedposts"
                                 element={<UpvotedPostsPage />}
                             />
-                            {/*-------------------Post_Comments-------------------*/}
+                            {/*-------------------Comments-------------------*/}
                             <Route
                                 path="/addpostcomment"
                                 element={<AddPostCommentPage />}
@@ -107,6 +109,14 @@ function App() {
                             <Route
                                 path="/deletepostcomment"
                                 element={<DeletePostCommentPage />}
+                            />
+                            <Route
+                                path="/addcommentreply"
+                                element={<AddReplyCommentPage />}
+                            />
+                            <Route
+                                path="/getcommentreply"
+                                element={<GetCommentReplyPage />}
                             />
                         </Route>
                         {/*-------------------User-------------------*/}

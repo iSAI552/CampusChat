@@ -25,7 +25,7 @@ function AddReplyCommentPage() {
             });
             setData(response.data);
             setTimeout(() => {
-                navigate("/getpostcomment")
+                navigate("/getcommentreply")
             }, 1000);
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
@@ -39,7 +39,7 @@ function AddReplyCommentPage() {
                 <Container>
                     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
                         <h1 className="text-3xl font-bold mb-6">
-                            Add Comment:
+                            Add Reply:
                         </h1>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <input
@@ -53,7 +53,7 @@ function AddReplyCommentPage() {
                                 type="text"
                                 value={content}
                                 onChange={(e) => setContent(e.target.value)}
-                                placeholder="Comment"
+                                placeholder="Reply"
                                 className="w-full h-32 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition duration-300 resize-none"
                             />
 
@@ -62,7 +62,7 @@ function AddReplyCommentPage() {
                                 disabled={loading}
                                 className="w-full bg-blue-500 text-white py-2 px-4 rounded-md transition duration-300 ease-in-out hover:bg-blue-600"
                             >
-                                {loading ? "Updating..." : "Add Comment"}
+                                {loading ? "Updating..." : "Add Reply"}
                             </button>
                         </form>
                         {loading && (
