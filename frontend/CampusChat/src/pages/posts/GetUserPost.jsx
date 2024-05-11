@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Container from "../../components/Container";
 import Card from "../../components/Card";
+import { Link } from "react-router-dom";
 
 function GetPostPage() {
     const [error, setError] = useState(null);
@@ -44,7 +45,10 @@ function GetPostPage() {
         <div className="h-screen bg-gradient-to-br from-blue-400 to-blue-700 overflow-y-auto">
             <Container>
                 <div className=" mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-                    <h1 className="text-3xl font-bold mb-6">User Posts</h1>
+                    <div>
+                        <h1 className="text-3xl font-bold mb-6">User Posts</h1>
+                        <Link to={"/createPost"}>Plus</Link>
+                    </div>
                     {loading && (
                         <p className="mt-2 text-gray-600">Loading...</p>
                     )}
