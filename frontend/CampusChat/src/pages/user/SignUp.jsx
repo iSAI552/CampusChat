@@ -38,6 +38,7 @@ function SignUpPage() {
             setData(response.data);
         } catch (error) {
             setError(`Error while fetching the data ${error}`);
+            console.log(error)
         }
         setLoading(false);
     };

@@ -103,11 +103,11 @@ function App() {
                                 element={<GetPostCommentPage />}
                             />
                             <Route
-                                path="/updatepostcomment"
+                                path="/updatecomment"
                                 element={<UpdatePostCommentPage />}
                             />
                             <Route
-                                path="/deletepostcomment"
+                                path="/deletecomment"
                                 element={<DeletePostCommentPage />}
                             />
                             <Route

@@ -5,8 +5,8 @@ const mailSender = async (email, title , body) => {
     try {
         let transporter = nodemailer.createTransport({
             // user ethereal here for testing
-            host: 'smtp.ethereal.email',
-            port: 587,
+            host: 'smtp.gmail.com',
+            port: 465,
             auth: {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_PASS,
